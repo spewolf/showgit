@@ -2,11 +2,16 @@ package main
 
 import (
 	"flag"
+	"fmt"
 )
 
 // look for repos and add to the list
 func scan(path string) {
-	print("scan")
+	fmt.Printf("Found folders:\n\n")
+	//repositories := recursiveScanFolder(path)
+	// get dot path
+	// add new slices
+	// print status
 }
 
 // print neat contribution graph
