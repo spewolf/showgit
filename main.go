@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os/user"
+	"path/filepath"
 )
 
 // look for repos and add to the list
@@ -17,6 +19,17 @@ func scan(path string) {
 // print neat contribution graph
 func stats(email string) {
 	print("stats")
+}
+
+func getDotFilePath() string {
+	usr, err := user.Current()
+	if err != nil {
+		panic(err)
+	}
+
+	dotFile := filepath.Join(usr.HomeDir, "/.showgit")
+
+	return dotFile
 }
 
 func main() {
