@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"strings"
@@ -38,4 +40,41 @@ func recursiveScanFolder(path string) []string {
 	})
 
 	return repos
+}
+
+func combineSliceWithFile(repos []string, path string) {
+	// existingRepos := parseFileLinesToSlice(path)
+	// join slices
+	// write to file
+}
+
+func parseFileLinesToSlice(path string) []string {
+	file := openFile(path)
+	defer file.Close()
+
+	lines := make([]string, 0)
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+	if err := scanner.Err(); err != nil && err != io.EOF {
+		panic(err)
+	}
+
+	return lines
+}
+
+func openFile(path string) *os.File {
+	f, err := os.OpenFile(path, os.O_APPEND|os.O_WRONLY, 0755)
+	if err != nil {
+		if os.IsNotExist(err) {
+			_, err := os.Create(path)
+			if err != nil {
+				panic(err)
+			} else {
+				panic(err)
+			}
+		}
+	}
+	return f
 }
