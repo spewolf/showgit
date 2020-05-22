@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -42,12 +43,14 @@ func recursiveScanFolder(path string) []string {
 	return repos
 }
 
+// Combines all unique elements into a file
 func combineSliceWithFile(repos []string, path string) {
-	// existingRepos := parseFileLinesToSlice(path)
-	// join slices
-	// write to file
+	existingRepos := parseFileLinesToSlice(path)
+	repositories := joinSlices(existingRepos, repos)
+	writeToFile(path, repositories)
 }
 
+// Performs discrete join on string elements
 func joinSlices(new []string, old []string) []string {
 	for _, item := range new {
 		if !sliceContains(old, item) {
@@ -67,6 +70,7 @@ func sliceContains(slice []string, target string) bool {
 	return false
 }
 
+// file -> []string
 func parseFileLinesToSlice(path string) []string {
 	file := openFile(path)
 	defer file.Close()
@@ -81,6 +85,13 @@ func parseFileLinesToSlice(path string) []string {
 	}
 
 	return lines
+}
+
+// writes each slice element to file
+func writeToFile(path string, repos []string) {
+	ioutil.WriteFile(path,
+		[]byte(strings.Join(repos, "\n")),
+		0755)
 }
 
 func openFile(path string) *os.File {
