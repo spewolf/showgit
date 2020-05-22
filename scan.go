@@ -48,6 +48,25 @@ func combineSliceWithFile(repos []string, path string) {
 	// write to file
 }
 
+func joinSlices(new []string, old []string) []string {
+	for _, item := range new {
+		if !sliceContains(old, item) {
+			old = append(old, item)
+		}
+	}
+	return old
+}
+
+func sliceContains(slice []string, target string) bool {
+	for _, item := range slice {
+		if target == item {
+			return true
+		}
+	}
+
+	return false
+}
+
 func parseFileLinesToSlice(path string) []string {
 	file := openFile(path)
 	defer file.Close()
