@@ -18,7 +18,8 @@ func scan(path string) {
 
 // print neat contribution graph
 func stats(email string) {
-	print("stats")
+	commits := processRepositories(email)
+	printCommitStats(commits)
 }
 
 func getDotFilePath() string {
